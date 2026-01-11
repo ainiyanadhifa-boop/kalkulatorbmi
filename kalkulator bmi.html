@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalkulator BMI Lengkap</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 340px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+
+    button {
+      padding: 8px 15px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .hasil {
+      margin-top: 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>Kalkulator BMI</h2>
+
+    <input type="number" id="berat" placeholder="Berat badan (kg)">
+    <input type="number" id="tinggi" placeholder="Tinggi badan (cm)">
+
+    <button onclick="hitungBMI()">Hitung</button>
+
+    <div class="hasil">
+      <p id="bmi"></p>
+      <p id="kategori"></p>
+      <p id="selisih"></p>
+      <p id="saran"></p>
+    </div>
+  </div>
+
+  <script>
+    function hitungBMI() {
+      const berat = parseFloat(document.getElementById("berat").value);
+      const tinggiCm = parseFloat(document.getElementById("tinggi").value);
+      const tinggiM = tinggiCm / 100;
+
+      const bmi = berat / (tinggiM * tinggiM);
+
+      const minIdeal = 18.5 * (tinggiM * tinggiM);
+      const maxIdeal = 24.9 * (tinggiM * tinggiM);
+
+      let kategori = "";
+      let selisihText = "";
+      let saranText = "";
+
+      if (bmi < 18.5) {
+        kategori = "Kurus";
+        const kurang = minIdeal - berat;
+
+        selisihText = "Berat badan kurang sekitar " + kurang.toFixed(1) + " kg";
+
+        saranText =
+          "🍚 Saran makan: perbanyak protein (telur, tempe, ayam), karbohidrat sehat, dan sayur." +
+          "<br>🏃 Saran olahraga: latihan ringan seperti jalan kaki, yoga, atau latihan otot ringan.";
+      }
+      else if (bmi <= 24.9) {
+        kategori = "Normal (Ideal)";
+
+        selisihText = "Berat badan kamu sudah ideal 🎉";
+
+        saranText =
+          "🥗 Saran makan: pertahankan pola makan seimbang (sayur, buah, protein)." +
+          "<br>🚴 Saran olahraga: olahraga rutin 3–4 kali seminggu (jogging, bersepeda).";
+      }
+      else {
+        kategori = "Berlebih";
+        const lebih = berat - maxIdeal;
+
+        selisihText = "Berat badan berlebih sekitar " + lebih.toFixed(1) + " kg";
+
+        saranText =
+          "🥦 Saran makan: kurangi gula & gorengan, perbanyak sayur dan air putih." +
+          "<br>🔥 Saran olahraga: cardio seperti jalan cepat, lari ringan, skipping.";
+      }
+
+      document.getElementById("bmi").innerHTML =
+        "BMI: <b>" + bmi.toFixed(2) + "</b>";
+
+      document.getElementById("kategori").innerHTML =
+        "Kategori: <b>" + kategori + "</b>";
+
+      document.getElementById("selisih").innerText = selisihText;
+
+      document.getElementById("saran").innerHTML = saranText;
+    }
+  </script>
+</body>
+</html>
